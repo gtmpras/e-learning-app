@@ -1,4 +1,7 @@
+import 'package:e_learning/screens/home_screen.dart';
 import 'package:e_learning/screens/signIn_screen.dart';
+import 'package:e_learning/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -9,8 +12,11 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  //instance of Firebase Auth services
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
+
   // Controllers for the text fields
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -20,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void dispose() {
     // Dispose of the controllers when the widget is disposed
-    _nameController.dispose();
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -48,14 +54,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(child: Text('Create Account',style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),)),
-                SizedBox(height: height*.09,),
+                Center(
+                    child: Text(
+                  'Create Account',
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                )),
+                SizedBox(
+                  height: height * .09,
+                ),
                 const Text(
                   'Name',
                   style: TextStyle(fontFamily: 'Poppins', color: Colors.black),
                 ),
                 TextField(
-                  controller: _nameController,
+                  controller: _usernameController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5))),
@@ -111,10 +123,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onPressed: _isChecked
                       ? () {
                           //signUP function
-                          String name = _nameController.text;
-                          String email = _emailController.text;
-                          String password = _passwordController.text;
-                          print("Email: $email, password: $password, name:$name");
+                          _signUp();
                         }
                       : null, // Disable button if checkbox is not checked
                   style: ElevatedButton.styleFrom(
@@ -122,7 +131,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       backgroundColor: Colors.blue),
                   child: const Text(
                     'Sign Up',
-                    style: TextStyle(fontFamily: 'Poppins', color: Colors.white),
+                    style:
+                        TextStyle(fontFamily: 'Poppins', color: Colors.white),
                   ),
                 ),
                 Row(
@@ -130,8 +140,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     Text('Already have an account?  '),
                     GestureDetector(
-                      onTap: ()=>Navigator.pushReplacement(context,MaterialPageRoute(builder: (_)=>SignInScreen())),
-                      child: Text('Sign in',style: TextStyle(decoration: TextDecoration.underline,color: Colors.blue),))
+                        onTap: () => Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (_) => SignInScreen())),
+                        child: Text(
+                          'Sign in',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.blue),
+                        ))
                   ],
                 )
               ],
@@ -140,5 +156,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+
+  //signUp function with Firebase
+
+  void _signUp() async {
+    String username = _usernameController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
+    if (user != null) {
+      print("User is successfully created");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    }
   }
 }
