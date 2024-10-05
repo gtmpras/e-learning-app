@@ -1,4 +1,4 @@
-import 'package:e_learning/screens/home_screen.dart';
+
 import 'package:e_learning/screens/signIn_screen.dart';
 import 'package:e_learning/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -172,7 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       print("User is successfully created");
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => SignInScreen()),
       );
     }
   }
