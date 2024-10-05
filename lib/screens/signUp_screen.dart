@@ -12,6 +12,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  
+  bool _isSigning = false;
+
   //instance of Firebase Auth services
   final FirebaseAuthServices _auth = FirebaseAuthServices();
 
@@ -120,7 +123,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: height * .03,
                 ),
                 ElevatedButton(
-                  onPressed: _isChecked
+                  //checking two condtions whether both conditions meet or not?
+                  onPressed: _isChecked && !_isSigning
                       ? () {
                           //signUP function
                           _signUp();
@@ -129,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: ElevatedButton.styleFrom(
                       minimumSize: Size(width, 40),
                       backgroundColor: Colors.blue),
-                  child: const Text(
+                  child: _isSigning? CircularProgressIndicator(color: Colors.white,): Text(
                     'Sign Up',
                     style:
                         TextStyle(fontFamily: 'Poppins', color: Colors.white),
@@ -162,12 +166,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
   //signUp function with Firebase
 
   void _signUp() async {
+
+    setState(() {
+      _isSigning = true;
+    });
+    
     String username = _usernameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
 
     User? user = await _auth.signUpWithEmailAndPassword(email, password);
 
+  setState(() {
+    _isSigning = false;
+  });
     if (user != null) {
       print("User is successfully created");
       Navigator.push(

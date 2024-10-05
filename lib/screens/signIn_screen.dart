@@ -12,6 +12,9 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  //boolean for checking whether user is Signing in or nor?
+  bool _isSigning = false;
+  
   //instance of firebase Auth services
   final FirebaseAuthServices _auth = FirebaseAuthServices();
   //controllers
@@ -111,8 +114,8 @@ class _SignInScreenState extends State<SignInScreen> {
                               style: ElevatedButton.styleFrom(
                                   minimumSize: Size(width, 40),
                                   backgroundColor: Colors.blue),
-                              child: const Text(
-                                'Sign In',
+                              child:_isSigning ? CircularProgressIndicator(color: Colors.white,) :const Text(
+                                'Login',
                                 style: TextStyle(
                                     fontFamily: 'Poppin', color: Colors.white),
                               )),
@@ -163,17 +166,28 @@ class _SignInScreenState extends State<SignInScreen> {
   //signIn function with Firebase
 
   void _signIn() async {
+
+    setState(() {
+      _isSigning = true;
+    });
+
     String email = _emailController.text;
     String password = _passwordController.text;
 
     User? user = await _auth.signInWithEmailAndPassword(email, password);
 
+  setState(() {
+    _isSigning = false;
+  });
     if (user != null) {
       print("User is successfully Signed In");
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
+    }
+    else{
+      print("error occured during login process");
     }
   }
 }
