@@ -105,6 +105,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5))),
+                          obscureText: true,
                           ),
                           SizedBox(height: height * .01),
                           ElevatedButton(

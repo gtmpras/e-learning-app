@@ -1,4 +1,3 @@
-
 import 'package:e_learning/screens/signIn_screen.dart';
 import 'package:e_learning/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,19 +11,15 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  
   bool _isSigning = false;
 
-  //instance of Firebase Auth services
+  // Instance of Firebase Auth services
   final FirebaseAuthServices _auth = FirebaseAuthServices();
 
   // Controllers for the text fields
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  // Checkbox state
-  bool _isChecked = false;
 
   @override
   void dispose() {
@@ -58,10 +53,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
-                    child: Text(
-                  'Create Account',
-                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-                )),
+                  child: Text(
+                    'Create Account',
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                  ),
+                ),
                 SizedBox(
                   height: height * .09,
                 ),
@@ -72,11 +68,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 TextField(
                   controller: _usernameController,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5))),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
                 ),
-                const SizedBox(
-                    height: 20), // Space between email and password fields
+                const SizedBox(height: 20), // Space between fields
                 const Text(
                   'Email address',
                   style: TextStyle(
@@ -87,8 +84,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 TextField(
                   controller: _emailController,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5))),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -101,59 +100,54 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 TextField(
                   controller: _passwordController,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5))),
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                        value: _isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _isChecked = value!;
-                          });
-                        }),
-                    const Text(
-                      'I agree to the terms and conditions',
-                      style: TextStyle(fontFamily: 'Poppins'),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                  ],
+                  ),
+                  obscureText: true,
                 ),
                 SizedBox(
                   height: height * .03,
                 ),
                 ElevatedButton(
-                  //checking two condtions whether both conditions meet or not?
-                  onPressed: _isChecked && !_isSigning
-                      ? () {
-                          //signUP function
+                  onPressed: _isSigning
+                      ? null
+                      : () {
                           _signUp();
-                        }
-                      : null, // Disable button if checkbox is not checked
+                        },
                   style: ElevatedButton.styleFrom(
-                      minimumSize: Size(width, 40),
-                      backgroundColor: Colors.blue),
-                  child: _isSigning? CircularProgressIndicator(color: Colors.white,): Text(
-                    'Sign Up',
-                    style:
-                        TextStyle(fontFamily: 'Poppins', color: Colors.white),
+                    minimumSize: Size(width, 40),
+                    backgroundColor: Colors.blue,
                   ),
+                  child: _isSigning
+                      ? CircularProgressIndicator(color: Colors.white)
+                      : Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('Already have an account?  '),
                     GestureDetector(
-                        onTap: () => Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => SignInScreen())),
-                        child: Text(
-                          'Sign in',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue),
-                        ))
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => SignInScreen()),
+                      ),
+                      child: Text(
+                        'Sign in',
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    )
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -162,24 +156,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-
-  //signUp function with Firebase
-
+  // signUp function with Firebase
   void _signUp() async {
-
     setState(() {
       _isSigning = true;
     });
-    
-    String username = _usernameController.text;
+
     String email = _emailController.text;
     String password = _passwordController.text;
 
     User? user = await _auth.signUpWithEmailAndPassword(email, password);
 
-  setState(() {
-    _isSigning = false;
-  });
+    setState(() {
+      _isSigning = false;
+    });
+
     if (user != null) {
       print("User is successfully created");
       Navigator.push(
