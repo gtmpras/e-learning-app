@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../pages/home_content_page.dart';
-import '../pages/bookmarks_page.dart';
 import '../pages/folder_page.dart';
 import '../pages/profile_page.dart';
 import '../pages/search_page.dart';
@@ -19,7 +18,6 @@ class _HomeScreenState extends State<HomeScreen> {
     FoldersPage(),     // Folders page
     SearchPage(),      // Search page
     ProfilePage(),     // Profile page
-    BookmarksPage(),   // Bookmarks page
   ];
 
   @override
@@ -74,19 +72,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.folder),
-            label: 'Folders',
+            label: 'Files',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search, size: 40),
+            icon: Icon(Icons.search),
             label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'Bookmarks',
           ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class HomeContentPage extends StatefulWidget {
@@ -20,24 +21,36 @@ class _HomeContentPageState extends State<HomeContentPage> {
             style: TextStyle(fontSize: 16, color: Colors.grey[600]),
           ),
           SizedBox(height: 16),
-          Container(
-            width: double.infinity,
-            height: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.blue),
-            ),
-            child: Center(
-              child: Icon(Icons.image, size: 50, color: Colors.grey),
+          
+          // Carousel Slider 
+          CarouselSlider(
+            items: [
+              buildImageContainer(
+                  'https://images.pexels.com/photos/68761/pexels-photo-68761.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
+              buildImageContainer(
+                  'https://images.pexels.com/photos/17771091/pexels-photo-17771091/free-photo-of-child-using-internet.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
+              buildImageContainer(
+                  'https://images.pexels.com/photos/247819/pexels-photo-247819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
+            ],
+            options: CarouselOptions(
+              height: 200.0,
+              enlargeCenterPage: true,
+              autoPlay: true,
+              aspectRatio: 16 / 9,
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enableInfiniteScroll: true,
+              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              viewportFraction: 0.8,
             ),
           ),
+          
           SizedBox(height: 16),
           Text(
             'Subjects',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
-          
+
           //subjects selection
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -60,9 +73,13 @@ class _HomeContentPageState extends State<HomeContentPage> {
             child: ListView(
               children: [
                 NoteCard(title: 'Probability - Maths'),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 NoteCard(title: 'Evolution - Science'),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 NoteCard(title: 'Hardware - Computer'),
               ],
             ),
@@ -79,13 +96,30 @@ class _HomeContentPageState extends State<HomeContentPage> {
       selected: selectedSubject == subject, // Determine if the chip is selected
       onSelected: (bool selected) {
         setState(() {
-          selectedSubject = selected ? subject : selectedSubject; // Update selected subject
+          selectedSubject =
+              selected ? subject : selectedSubject; // Update selected subject
         });
       },
       selectedColor: Colors.blue, // Blue color when selected
       backgroundColor: Colors.grey[200], // Grey when not selected
       labelStyle: TextStyle(
-        color: selectedSubject == subject ? Colors.white : Colors.black, // Change label color based on selection
+        color: selectedSubject == subject
+            ? Colors.white
+            : Colors.black, // Change label color based on selection
+      ),
+    );
+  }
+
+  // Helper method to build image containers for CarouselSlider
+  Widget buildImageContainer(String imageUrl) {
+    return Container(
+      margin: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        image: DecorationImage(
+          image: NetworkImage(imageUrl),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
