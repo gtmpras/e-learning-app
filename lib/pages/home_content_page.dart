@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import 'folder_page.dart';
+
 class HomeContentPage extends StatefulWidget {
   @override
   _HomeContentPageState createState() => _HomeContentPageState();
@@ -146,7 +148,10 @@ class NoteCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => FoldersPage()));
+          },
           child: Text('View'),
         ),
       ),

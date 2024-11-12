@@ -13,11 +13,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0; // Track selected bottom navigation item
 
   // List of pages for the bottom navigation
-  static  List<Widget> _pages = <Widget>[
+  static List<Widget> _pages = <Widget>[
     HomeContentPage(), // Home content (the existing home body)
-    FoldersPage(),     // Folders page
-    SearchPage(),      // Search page
-    ProfilePage(),     // Profile page
+    FoldersPage(), // Folders page
+    SearchPage(), // Search page
+    ProfilePage(), // Profile page
   ];
 
   @override
@@ -111,6 +111,7 @@ class NoteCard extends StatelessWidget {
             ),
           ),
           onPressed: () {
+            
             print('Notes tapped');
           },
           child: Text('View'),
