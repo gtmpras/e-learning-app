@@ -115,7 +115,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
   // Helper method to build image containers for CarouselSlider
   Widget buildImageContainer(String imageUrl) {
     return Container(
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
         image: DecorationImage(
