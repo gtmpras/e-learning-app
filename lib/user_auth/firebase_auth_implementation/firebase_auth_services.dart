@@ -1,6 +1,8 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_learning/utils/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class FirebaseAuthServices {
 
@@ -24,10 +26,18 @@ class FirebaseAuthServices {
   }
 
   // Login authentication for SignIn with email and password
-  Future<User?> signInWithEmailAndPassword(String email, String password) async {
+  Future<(User?,bool?)> signInWithEmailAndPassword(String email, String password) async {
     try {
+
       UserCredential credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return credential.user;
+      var adminData =  await FirebaseFirestore.instance.collection("admin").where("email",isEqualTo: email).get();
+      
+      if(adminData.docs.isNotEmpty){
+      return  (credential.user,true);
+      }else{
+      return  (credential.user,false); 
+      }
+      
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
         print('Error: Invalid email or password');
@@ -37,6 +47,6 @@ class FirebaseAuthServices {
         showToast(message: 'An error occurred: ${e.code}');
       }
     }
-    return null;
+    return (null,null);
   }
 }

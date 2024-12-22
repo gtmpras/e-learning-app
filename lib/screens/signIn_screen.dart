@@ -1,3 +1,4 @@
+import 'package:e_learning/screens/admin_screen.dart';
 import 'package:e_learning/screens/home_screen.dart';
 import 'package:e_learning/screens/signUp_screen.dart';
 import 'package:e_learning/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
@@ -175,16 +176,22 @@ class _SignInScreenState extends State<SignInScreen> {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    User? user = await _auth.signInWithEmailAndPassword(email, password);
+    (User?,bool?) user = await _auth.signInWithEmailAndPassword(email, password);
 
   setState(() {
     _isSigning = false;
   });
-    if (user != null) {
+    if (user.$1 != null && user.$2 == false) {
       print("User is successfully Signed In");
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    }
+    else if(user.$1 != null && user.$2 == true){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyWidget()),
       );
     }
     else{
