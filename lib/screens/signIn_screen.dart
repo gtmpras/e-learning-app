@@ -189,9 +189,10 @@ class _SignInScreenState extends State<SignInScreen> {
       );
     }
     else if(user.$1 != null && user.$2 == true){
+      print("Admin successfully signed In");
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MyWidget()),
+        MaterialPageRoute(builder: (context) => AdminHomeScreen()),
       );
     }
     else{

@@ -8,12 +8,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FoldersPage extends StatefulWidget {
+class AdminFolderPage extends StatefulWidget {
   @override
-  State<FoldersPage> createState() => _FoldersPageState();
+  State<AdminFolderPage> createState() => _AdminFolderPageState();
 }
 
-class _FoldersPageState extends State<FoldersPage> {
+class _AdminFolderPageState extends State<AdminFolderPage> {
   // Cloudinary credentials
   final String cloudName = 'dvkagmf8y';
   final String uploadPreset = 'my_upload_preset'; // Ensure this matches the preset on Cloudinary
@@ -66,6 +66,7 @@ class _FoldersPageState extends State<FoldersPage> {
       print("Error uploading PDF to Cloudinary: $e");
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -125,10 +126,10 @@ class _FoldersPageState extends State<FoldersPage> {
           );
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(Icons.upload_file),
-      //   onPressed: uploadPdf,
-      // ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.upload_file),
+        onPressed: uploadPdf,
+      ),
     );
   }
 }
