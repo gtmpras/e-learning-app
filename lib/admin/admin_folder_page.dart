@@ -1,7 +1,7 @@
-
 import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
+import 'package:e_learning/pages/folder_page.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -21,7 +21,7 @@ class _AdminFolderPageState extends State<AdminFolderPage> {
   // Firebase Firestore instance
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  //Uploading  PDF files  to Cloudinary and Firestore 
+  // Uploading PDF files to Cloudinary and Firestore
   Future<void> uploadPdf() async {
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -67,6 +67,20 @@ class _AdminFolderPageState extends State<AdminFolderPage> {
     }
   }
 
+  // Deleting PDF from Firestore
+  Future<void> deletePdf(String docId) async {
+    try {
+      await _firebaseFirestore.collection("pdfs").doc(docId).delete();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("PDF deleted successfully.")),
+      );
+    } catch (e) {
+      print("Error deleting PDF: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to delete PDF.")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +108,7 @@ class _AdminFolderPageState extends State<AdminFolderPage> {
               final pdf = pdfs[index];
               final pdfName = pdf["name"];
               final pdfUrl = pdf["url"];
+              final docId = pdf.id;
 
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -106,19 +121,31 @@ class _AdminFolderPageState extends State<AdminFolderPage> {
                       ),
                     );
                   },
-                  child: Container(
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(Icons.picture_as_pdf, size: 50, color: Colors.red),
-                        Text(
-                          pdfName,
-                          style: TextStyle(fontSize: 18),
-                          textAlign: TextAlign.center,
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(border: Border.all()),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(Icons.picture_as_pdf, size: 50, color: Colors.red),
+                            Text(
+                              pdfName,
+                              style: TextStyle(fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: IconButton(
+                          icon: Icon(Icons.delete, color: Colors.red),
+                          onPressed: () => deletePdf(docId),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -130,48 +157,6 @@ class _AdminFolderPageState extends State<AdminFolderPage> {
         child: Icon(Icons.upload_file),
         onPressed: uploadPdf,
       ),
-    );
-  }
-}
-
-class PdfViewerScreen extends StatefulWidget {
-  final String pdfUrl;
-  const PdfViewerScreen({super.key, required this.pdfUrl});
-
-  @override
-  State<PdfViewerScreen> createState() => _PdfViewerScreenState();
-}
-
-class _PdfViewerScreenState extends State<PdfViewerScreen> {
-  PDFDocument? document;
-
-  // Initialize the PDF document
-  void initializePdf() async {
-    try {
-      document = await PDFDocument.fromURL(widget.pdfUrl);
-      setState(() {});
-    } catch (e) {
-      print('Error loading PDF: $e');
-      // Handle the error gracefully
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load PDF')),
-      );
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initializePdf();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("PDF Viewer")),
-      body: document != null
-          ? PDFViewer(document: document!)
-          : Center(child: CircularProgressIndicator()), // Show loading until the PDF is loaded
     );
   }
 }
