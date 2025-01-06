@@ -101,56 +101,76 @@ class _AdminFolderPageState extends State<AdminFolderPage> {
 
           final pdfs = snapshot.data!.docs;
 
-          return GridView.builder(
-            itemCount: pdfs.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            itemBuilder: (context, index) {
-              final pdf = pdfs[index];
-              final pdfName = pdf["name"];
-              final pdfUrl = pdf["url"];
-              final docId = pdf.id;
+        return GridView.builder(
+  itemCount: pdfs.length,
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisSpacing: 8, // Space between columns
+    mainAxisSpacing: 8, // Space between rows
+    crossAxisCount: 2, // Number of items per row
+    childAspectRatio: 0.8, // Adjust the aspect ratio for uniform grid item size
+  ),
+  itemBuilder: (context, index) {
+    final pdf = pdfs[index];
+    final pdfName = pdf["name"];
+    final pdfUrl = pdf["url"];
+    final docId = pdf.id;
 
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PdfViewerScreen(pdfUrl: pdfUrl),
-                      ),
-                    );
-                  },
-                  child: Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(border: Border.all()),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Icon(Icons.picture_as_pdf, size: 50, color: Colors.red),
-                            Text(
-                              pdfName,
-                              style: TextStyle(fontSize: 18),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: IconButton(
-                          icon: Icon(Icons.delete, color: Colors.red),
-                          onPressed: () => deletePdf(docId),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
+    return Padding(
+      padding: const EdgeInsets.all(4.0), // Uniform padding
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PdfViewerScreen(pdfUrl: pdfUrl),
+            ),
           );
+        },
+        child: Stack(
+          children: [
+            // Fixed-size container
+            Container(
+              width: double.infinity, // Ensure the container fills its parent
+              height: 190, // Set a fixed height for all grid items
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.blue, width: 1.5), // Border color and width
+                borderRadius: BorderRadius.circular(8), // Rounded corners
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2), // Shadow color
+                    spreadRadius: 2,
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.picture_as_pdf, size: 50, color: Colors.red),
+                  Text(pdfName,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+            // Delete button in the top-right corner
+            Positioned(
+              top: 4,
+              right: 4,
+              child: IconButton(
+                icon: const Icon(Icons.delete, color: Colors.red),
+                onPressed: () => deletePdf(docId),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  },
+);
+
         },
       ),
       floatingActionButton: FloatingActionButton(
