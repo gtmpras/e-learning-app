@@ -158,12 +158,13 @@
 //     );
 //   }
 // }
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_learning/admin_page/admin_folder_page.dart';
+import 'package:e_learning/pages/folder_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+
 
 
 class HomeContentPage extends StatefulWidget {
@@ -174,6 +175,7 @@ class HomeContentPage extends StatefulWidget {
 class _HomeContentPageState extends State<HomeContentPage> {
   String selectedSubject = 'All'; // Track the selected subject
   List<String> recentNotes = []; // List to store PDF file names
+  bool isAdmin = false; // Set this based on user authentication or any logic you have
 
   @override
   void initState() {
@@ -186,8 +188,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
     try {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('pdfs') // Replace "notes" with your collection name
-          // .orderBy('updatedAt', descending: true) // Sort by updatedAt timestamp
-          .limit(3) // Fetch only the 5 most recent PDFs
+          .limit(3) // Fetch only the 3 most recent PDFs
           .get();
 
       List<String> notes = snapshot.docs.map((doc) {
@@ -269,7 +270,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                 final noteTitle = recentNotes[index];
                 return Column(
                   children: [
-                    NoteCard(title: noteTitle),
+                    NoteCard(title: noteTitle, isAdmin: isAdmin), // Pass isAdmin here
                     SizedBox(height: 20),
                   ],
                 );
@@ -316,8 +317,9 @@ class _HomeContentPageState extends State<HomeContentPage> {
 
 class NoteCard extends StatelessWidget {
   final String title;
+  final bool isAdmin;
 
-  NoteCard({required this.title});
+  NoteCard({required this.title, required this.isAdmin});
 
   @override
   Widget build(BuildContext context) {
@@ -328,21 +330,7 @@ class NoteCard extends StatelessWidget {
       ),
       child: ListTile(
         title: Text(title),
-        trailing: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => AdminFolderPage()),
-            );
-          },
-          child: Text('View'),
-        ),
+        leading: Icon(Icons.notifications,color: Colors.blue,),
       ),
     );
   }
