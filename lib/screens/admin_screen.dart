@@ -1,4 +1,5 @@
 import 'package:e_learning/admin_page/admin_folder_page.dart';
+import 'package:e_learning/pages/search_page.dart';
 import 'package:flutter/material.dart';
 import '../pages/home_content_page.dart';
 import '../pages/profile_page.dart';
@@ -14,8 +15,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   // List of pages for the bottom navigation
   static List<Widget> _pages = <Widget>[
     HomeContentPage(), // Home content (the existing home body)
-    AdminFolderPage(), // Folders page 
-    ProfilePage(), // Profile page
+    SearchPage(),
+    AdminFolderPage(), 
+    ProfilePage(), 
+    
   ];
 
   @override
@@ -68,10 +71,16 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             icon: Icon(Icons.home),
             label: 'Home',
           ),
+          
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.folder),
             label: 'Files',
           ),
+          
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
