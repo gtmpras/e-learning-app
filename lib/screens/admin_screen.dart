@@ -1,8 +1,9 @@
 import 'package:e_learning/admin_page/admin_folder_page.dart';
 import 'package:e_learning/pages/search_page.dart';
 import 'package:flutter/material.dart';
+import '../pages/exit_page.dart';
 import '../pages/home_content_page.dart';
-import '../pages/profile_page.dart';
+
 
 class AdminHomeScreen extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     HomeContentPage(), // Home content (the existing home body)
     SearchPage(),
     AdminFolderPage(), 
-    ProfilePage(), 
+    ExitPage(), 
     
   ];
 
@@ -28,7 +29,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          'Hello, Prasoon!',
+          'Hello, Admin!',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -38,7 +39,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications, color: Colors.black),
+            icon: Icon(Icons.face, color: Colors.black),
             onPressed: () {},
           ),
         ],
@@ -82,8 +83,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           ),
           
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.exit_to_app),
+            label: 'Exit',
           ),
         ],
       ),

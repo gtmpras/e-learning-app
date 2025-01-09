@@ -18,8 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const SignInScreen()), // Replace NextScreen with your target screen
-      );
+        MaterialPageRoute(builder: (context) => const SignInScreen()),     );
     });
   }
 

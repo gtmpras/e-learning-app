@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 class FirebaseAuthServices {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Sign up authentication with email and password
   Future<User?> signUpWithEmailAndPassword(String email, String password) async {
@@ -24,6 +25,19 @@ class FirebaseAuthServices {
     }
     return null;
   }
+
+  //saving the SignUp userDetails 
+  Future<void> saveUserDetails(String userId, String username, String email) async {
+    try {
+      await _firestore.collection('users').doc(userId).set({
+        'username': username,
+        'email': email,
+      });
+    } catch (e) {
+      print("Error saving user details: $e");
+    }
+  }
+
 
   // Login authentication for SignIn with email and password
   Future<(User?,bool?)> signInWithEmailAndPassword(String email, String password) async {
@@ -50,3 +64,4 @@ class FirebaseAuthServices {
     return (null,null);
   }
 }
+

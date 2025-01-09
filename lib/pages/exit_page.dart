@@ -2,7 +2,7 @@ import 'package:e_learning/screens/signIn_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
+class ExitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

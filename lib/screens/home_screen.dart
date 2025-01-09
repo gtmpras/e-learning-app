@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../pages/home_content_page.dart';
 import '../pages/folder_page.dart';
-import '../pages/profile_page.dart';
+import '../pages/exit_page.dart';
 import '../pages/search_page.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,14 +12,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0; // Track selected bottom navigation item
+  int _selectedIndex = 0; 
 
+
+  //fetch username from firestore
+   Future<String> _getUsername() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      return userDoc['username'] ?? 'User'; // Return username else 'User' if not it is not found.
+    }
+    return 'User';
+  }
   // List of pages for the bottom navigation
   static List<Widget> _pages = <Widget>[
-    HomeContentPage(), // Home content (the existing home body)
-    FoldersPage(), // Folders page
+    HomeContentPage(), // Home content (the existing home body )
     SearchPage(), // Search page
-    ProfilePage(), // Profile page
+    FoldersPage(), // Folders page
+    ExitPage(), // Profile page
   ];
 
   @override
@@ -26,18 +41,21 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
-          'Hello, Prasoon!',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontFamily: 'Poppins-Regular',
-            fontWeight: FontWeight.bold,
-          ),
+        title: FutureBuilder<String>(
+          future: _getUsername(),
+         builder: (context,snapshot){ if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text('Hello...', style: TextStyle(color: Colors.black));
+            }
+            return Text(
+              'Hello, ${snapshot.data}',
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            );
+          },
         ),
+      
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications, color: Colors.black),
+            icon: Icon(Icons.face, color: Colors.black),
             onPressed: () {},
           ),
         ],
@@ -71,16 +89,17 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.folder),
-            label: 'Files',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.folder),
+            label: 'Files',
+          ),
+          
+          BottomNavigationBarItem(
+            icon: Icon(Icons.door_sliding),
+            label: 'Exit',
           ),
         ],
       ),

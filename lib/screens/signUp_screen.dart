@@ -156,27 +156,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  // signUp function with Firebase
-  void _signUp() async {
-    setState(() {
-      _isSigning = true;
-    });
+void _signUp()async{
+  setState(() {
+    _isSigning = true;
+  });
 
-    String email = _emailController.text;
-    String password = _passwordController.text;
+  String username = _usernameController.text;
+  String email = _emailController.text;
+  String password = _passwordController.text;
 
-    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+  User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
+  if(user != null){
+    await _auth.saveUserDetails(user.uid, username, email);
 
     setState(() {
       _isSigning = false;
     });
 
-    if (user != null) {
-      print("User is successfully created");
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SignInScreen()),
-      );
-    }
+    print("User is successfully created");
+    Navigator.push(context, 
+    MaterialPageRoute(builder: (context)=>SignInScreen()),
+    );
+  }else{
+    setState(() {
+      _isSigning = false;
+    });
+    print("Sign-up failed");
   }
 }
+}
+//   // signUp function with Firebase
+//   void _signUp() async {
+//     setState(() {
+//       _isSigning = true;
+//     });
+
+//     String email = _emailController.text;
+//     String password = _passwordController.text;
+
+//     User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
+//     setState(() {
+//       _isSigning = false;
+//     });
+
+//     if (user != null) {
+//       print("User is successfully created");
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(builder: (context) => SignInScreen()),
+//       );
+//     }
+//   }
+// }
+

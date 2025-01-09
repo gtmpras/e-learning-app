@@ -70,9 +70,7 @@ class _FoldersPageState extends State<FoldersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Uploaded PDFs"),
-      ),
+      
       body: StreamBuilder<QuerySnapshot>(
         stream: _firebaseFirestore.collection("pdfs").snapshots(),
         builder: (context, snapshot) {
@@ -106,7 +104,18 @@ class _FoldersPageState extends State<FoldersPage> {
                     );
                   },
                   child: Container(
-                    decoration: BoxDecoration(border: Border.all()),
+                    decoration:BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black, width: 1.5),
+                borderRadius: BorderRadius.circular(8), 
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2), 
+                    spreadRadius: 2,
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
