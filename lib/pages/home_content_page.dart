@@ -173,9 +173,9 @@ class HomeContentPage extends StatefulWidget {
 }
 
 class _HomeContentPageState extends State<HomeContentPage> {
-  String selectedSubject = 'All'; // Track the selected subject
-  List<String> recentNotes = []; // List to store PDF file names
-  bool isAdmin = false; // Set this based on user authentication or any logic you have
+  String selectedSubject = 'All';
+  List<String> recentNotes = []; 
+  bool isAdmin = false;
 
   @override
   void initState() {
@@ -196,7 +196,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
       }).toList();
 
       setState(() {
-        recentNotes = notes; // Update the state with the fetched notes
+        recentNotes = notes;
       });
     } catch (e) {
       print('Error fetching notes: $e');
@@ -262,7 +262,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
           ),
           SizedBox(height: 8),
 
-          // Display recent notes dynamically
+          // Displaying recent updated notes
           Expanded(
             child: ListView.builder(
               itemCount: recentNotes.length,
@@ -300,7 +300,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
     );
   }
 
-  // Helper method to build image containers for CarouselSlider
+
   Widget buildImageContainer(String imageUrl) {
     return Container(
       margin: const EdgeInsets.all(8),

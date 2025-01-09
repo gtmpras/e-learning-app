@@ -104,10 +104,10 @@ class _AdminFolderPageState extends State<AdminFolderPage> {
         return GridView.builder(
   itemCount: pdfs.length,
   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisSpacing: 8, // Space between columns
-    mainAxisSpacing: 8, // Space between rows
-    crossAxisCount: 2, // Number of items per row
-    childAspectRatio: 0.8, // Adjust the aspect ratio for uniform grid item size
+    crossAxisSpacing: 8,
+    mainAxisSpacing: 8, 
+    crossAxisCount: 2, 
+    childAspectRatio: 0.8,
   ),
   itemBuilder: (context, index) {
     final pdf = pdfs[index];
@@ -116,7 +116,7 @@ class _AdminFolderPageState extends State<AdminFolderPage> {
     final docId = pdf.id;
 
     return Padding(
-      padding: const EdgeInsets.all(4.0), // Uniform padding
+      padding: const EdgeInsets.all(4.0),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -128,17 +128,17 @@ class _AdminFolderPageState extends State<AdminFolderPage> {
         },
         child: Stack(
           children: [
-            // Fixed-size container
+           
             Container(
-              width: double.infinity, // Ensure the container fills its parent
-              height: 190, // Set a fixed height for all grid items
+              width: double.infinity, 
+              height: 190,
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: Colors.blue, width: 1.5), // Border color and width
-                borderRadius: BorderRadius.circular(8), // Rounded corners
+                border: Border.all(color: Colors.blue, width: 1.5),
+                borderRadius: BorderRadius.circular(8), 
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.2), // Shadow color
+                    color: Colors.grey.withOpacity(0.2), 
                     spreadRadius: 2,
                     blurRadius: 4,
                   ),
