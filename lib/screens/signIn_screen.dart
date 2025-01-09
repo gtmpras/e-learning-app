@@ -1,4 +1,5 @@
 import 'package:e_learning/screens/admin_screen.dart';
+import 'package:e_learning/screens/forgot_password_screen.dart';
 import 'package:e_learning/screens/home_screen.dart';
 import 'package:e_learning/screens/signUp_screen.dart';
 import 'package:e_learning/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
@@ -141,6 +142,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>ForgotPasswordScreen()));
                                     //handle forgot password
                                   },
                                   child: const Text(
