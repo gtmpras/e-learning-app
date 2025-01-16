@@ -12,8 +12,7 @@ class HomeContentPage extends StatefulWidget {
 }
 
 class _HomeContentPageState extends State<HomeContentPage> {
-  String selectedSubject = 'All';
-  List<String> recentNotes = []; 
+    List<String> recentNotes = []; 
   bool isAdmin = false;
 
   @override
@@ -22,7 +21,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
     fetchRecentNotes();
   }
 
-  // Fetch the most recent 5 PDF file names from Firebase
+  // Fetch the most recent 3 PDF file names from Firebase
   Future<void> fetchRecentNotes() async {
     try {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -66,7 +65,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                   'https://images.pexels.com/photos/247819/pexels-photo-247819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
             ],
             options: CarouselOptions(
-              height: 200.0,
+              height: 230.0,
               enlargeCenterPage: true,
               autoPlay: true,
               aspectRatio: 16 / 9,
@@ -77,23 +76,9 @@ class _HomeContentPageState extends State<HomeContentPage> {
             ),
           ),
 
-          SizedBox(height: 16),
-          Text(
-            'Subjects',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 8),
-
-          // Subjects selection
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              subjectChip('All'),
-              subjectChip('Science'),
-              subjectChip('Maths'),
-              subjectChip('Computer'),
-            ],
-          ),
+          SizedBox(height: 25),
+          
+         
           SizedBox(height: 16),
           Text(
             'Your Recent Notes',
@@ -121,23 +106,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
     );
   }
 
-  // Method to build the subject chip
-  Widget subjectChip(String subject) {
-    return ChoiceChip(
-      label: Text(subject),
-      selected: selectedSubject == subject,
-      onSelected: (bool selected) {
-        setState(() {
-          selectedSubject = selected ? subject : selectedSubject;
-        });
-      },
-      selectedColor: Colors.blue,
-      backgroundColor: Colors.grey[200],
-      labelStyle: TextStyle(
-        color: selectedSubject == subject ? Colors.white : Colors.black,
-      ),
-    );
-  }
+ 
 
 
   Widget buildImageContainer(String imageUrl) {

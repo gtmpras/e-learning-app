@@ -60,16 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            ListTile(
-              title: Text('Profile'),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+     
       body: _pages[_selectedIndex], // Display the selected page
 
       bottomNavigationBar: BottomNavigationBar(

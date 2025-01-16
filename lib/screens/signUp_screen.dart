@@ -52,6 +52,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                
                 Center(
                   child: Text(
                     'Create Account',
@@ -103,9 +104,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
+                 
                   ),
                   obscureText: true,
                 ),
+               
                 SizedBox(
                   height: height * .03,
                 ),
@@ -126,6 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
+                            
                           ),
                         ),
                 ),

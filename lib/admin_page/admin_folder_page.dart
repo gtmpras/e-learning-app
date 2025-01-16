@@ -85,9 +85,7 @@ class _AdminFolderPageState extends State<AdminFolderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Uploaded PDFs"),
-      ),
+      
       body: StreamBuilder<QuerySnapshot>(
         stream: _firebaseFirestore.collection("pdfs").snapshots(),
         builder: (context, snapshot) {

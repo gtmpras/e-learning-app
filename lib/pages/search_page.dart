@@ -47,7 +47,7 @@ class _SearchPageState extends State<SearchPage> {
       if (midName.contains(query.toLowerCase())) {
         results.add(pdfs[mid]);
 
-        // Look for more matches around the mid index
+        // Looking for more matches around the mid index
         int tempMid = mid;
         while (--tempMid >= 0 && pdfs[tempMid]["name"].toLowerCase().contains(query.toLowerCase())) {
           results.add(pdfs[tempMid]);

@@ -15,7 +15,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   // List of pages for the bottom navigation
   static List<Widget> _pages = <Widget>[
-    HomeContentPage(), // Home content (the existing home body)
+    HomeContentPage(),
     SearchPage(),
     AdminFolderPage(), 
     ExitPage(), 
@@ -44,16 +44,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            ListTile(
-              title: Text('Profile'),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+     
       body: _pages[_selectedIndex], // Display the selected page
 
       bottomNavigationBar: BottomNavigationBar(
